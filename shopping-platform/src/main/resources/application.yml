@@ -1,0 +1,36 @@
+##########################################################
+###################  所有环境的配置文件  ###################
+##########################################################
+
+######################## spring 设置 ##########################
+###启动环境 dev（本地） test（测试） prod（线上）
+spring:
+  profiles:
+    active: dev,dev-conf
+  mvc:
+    favicon:
+      enabled: false
+  http:
+    converters:
+      preferred-json-mapper: fastjson
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location: ./upload
+      max-file-size: 4MB
+      max-request-size: 10MB
+ ######################## 项目设置 ##########################
+server:
+  port: 8088
+  servlet:
+    context-path: /platform
+ ## ssl:
+   ## key-store: classpath:qs_ams_web.keystore
+   ## key-store-password: qs_ams_web
+   ## key-store-type: JKS
+   ## key-alias: tomcat

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.ConsumeLogMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.ConsumeLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="record" jdbcType="VARCHAR" property="record" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="userId!= null">
+        AND user_id = #{userId}
+      </if>
+      <if test="amount!= null">
+        AND amount = #{amount}
+      </if>
+      <if test="type!= null">
+        AND type = #{type}
+      </if>
+      <if test="record!= null">
+        AND record = #{record}
+      </if>
+      <if test="updateTime!= null">
+        AND update_time = #{updateTime}
+      </if>
+      <if test="createTime!= null">
+        AND create_time = #{createTime}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>

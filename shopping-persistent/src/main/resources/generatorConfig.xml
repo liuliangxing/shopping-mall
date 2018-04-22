@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE generatorConfiguration    
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"    
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">    
+<generatorConfiguration>
+<!-- 数据库驱动-->    
+    <!-- <classPathEntry  location="./WebContent/WEB-INF/lib/mysql-connector-java-5.1.30-bin.jar"/>     -->
+    <!-- 引入配置文件 -->
+    <!--<properties resource="mybatis-config.properties"/>-->
+    
+    <context id="DB2Tables"  targetRuntime="MyBatis3">
+        <!-- 自动识别数据库关键字，默认false -->
+        <property name="autoDelimitKeywords" value="true" />
+        <!--可以使用``包括字段名，避免字段名与sql保留字冲突报错 -->
+        <property name="beginningDelimiter" value="`" />
+        <property name="endingDelimiter" value="`" />
+
+    	<!-- 添加 toString插件 -->
+    	 <plugin type="com.destinyboy.jbt.mybatis.ToStringPlugin"/>
+    	 <!-- 添加 序列化 插件 -->
+    	 <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+    	<!-- 自定义方法 -->
+        <plugin type="com.destinyboy.jbt.mybatis.MapperPlugin">
+        	<property name="baseMapper" value="${mapperPluginBaseMapper}"/>
+        	<property name="targetProject" value="${targetProject}"/>
+        	<property name="servicePackage" value="${mapperPluginServicePackage}"/>
+        	<property name="moduleName" value="${mapperPluginModuleName}"/>
+        	<property name="isCache" value="${cache}"/>
+        	<property name="cacheValue" value="${cacheValue}"/>
+            <property name="redisServiceImpl" value="${redisServiceImpl}"/>
+        </plugin>
+        
+        <commentGenerator type="com.destinyboy.jbt.mybatis.MyCommentGenerator">
+            <!--<property name="suppressDate" value="true"/>    -->
+            <!--&lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;    -->
+            <!--<property name="suppressAllComments" value="true"/>    -->
+        </commentGenerator>    
+        <!--数据库链接URL，用户名、密码  需要改-->    
+        <jdbcConnection driverClass="${driverClass}" 
+        				connectionURL="${connectionURL}${jdbcDBName}"
+        				userId="${userName}"
+        				password="${password}">
+        </jdbcConnection>    
+        <javaTypeResolver type="com.destinyboy.jbt.mybatis.MybatisTypeResolver">
+            <property name="forceBigDecimals" value="false"/>    
+        </javaTypeResolver>    
+        <!-- 生成模型的包名和位置   需要改-->    
+        <javaModelGenerator targetPackage="${entityPackage}" targetProject="${targetProject}">
+            <property name="enableSubPackages" value="true"/>    
+            <property name="trimStrings" value="true"/>    
+        </javaModelGenerator>    
+        <!-- 生成映射文件的包名和位置  需要改-->    
+        <sqlMapGenerator targetPackage="${entityPackage}.mappers" targetProject="${targetProject}">
+            <property name="enableSubPackages" value="true"/>    
+        </sqlMapGenerator>    
+        <!-- 生成DAO的包名和位置 需要改-->    
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${mapperPackage}" targetProject="${targetProject}">
+            <property name="enableSubPackages" value="true"/>    
+        </javaClientGenerator>    
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->    
+        <table
+        	 tableName="占位表,程序会删除"
+             domainObjectName="占位表,程序会删除"
+        	 enableCountByExample="false"
+        	 enableUpdateByExample="false"
+        	 enableDeleteByExample="false"
+        	 enableSelectByExample="false"
+        	 selectByExampleQueryId="false"
+        	 >
+        </table>
+        <!-- 可以添加多个表   <table tableName=""></table> -->
+    </context>    
+</generatorConfiguration> 

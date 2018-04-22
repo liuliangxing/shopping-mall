@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.AuthoritiesMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.Authorities">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="authorities_name" jdbcType="VARCHAR" property="authoritiesName" />
+    <result column="menu_notes" jdbcType="VARCHAR" property="menuNotes" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="menu_path" jdbcType="VARCHAR" property="menuPath" />
+    <result column="menu_level" jdbcType="INTEGER" property="menuLevel" />
+    <result column="menu_sort" jdbcType="INTEGER" property="menuSort" />
+    <result column="icon_name" jdbcType="INTEGER" property="iconName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="authoritiesName!= null">
+        AND authorities_name = #{authoritiesName}
+      </if>
+      <if test="menuNotes!= null">
+        AND menu_notes = #{menuNotes}
+      </if>
+      <if test="parentId!= null">
+        AND parent_id = #{parentId}
+      </if>
+      <if test="menuPath!= null">
+        AND menu_path = #{menuPath}
+      </if>
+      <if test="menuLevel!= null">
+        AND menu_level = #{menuLevel}
+      </if>
+      <if test="menuSort!= null">
+        AND menu_sort = #{menuSort}
+      </if>
+      <if test="iconName!= null">
+        AND icon_name = #{iconName}
+      </if>
+      <if test="type!= null">
+        AND type = #{type}
+      </if>
+      <if test="enabled!= null">
+        AND enabled = #{enabled}
+      </if>
+      <if test="updateTime!= null">
+        AND update_time = #{updateTime}
+      </if>
+      <if test="createTime!= null">
+        AND create_time = #{createTime}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.ActivityVipMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.ActivityVip">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vip_id" jdbcType="INTEGER" property="vipId" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="vipId!= null">
+        AND vip_id = #{vipId}
+      </if>
+      <if test="activityId!= null">
+        AND activity_id = #{activityId}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.GoodsMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_num" jdbcType="VARCHAR" property="goodsNum" />
+    <result column="max_price" jdbcType="DECIMAL" property="maxPrice" />
+    <result column="min_price" jdbcType="DECIMAL" property="minPrice" />
+    <result column="goods_count" jdbcType="INTEGER" property="goodsCount" />
+    <result column="grounding" jdbcType="INTEGER" property="grounding" />
+    <result column="free_postage" jdbcType="INTEGER" property="freePostage" />
+    <result column="postage" jdbcType="DECIMAL" property="postage" />
+    <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="thumbnail_picture" jdbcType="CHAR" property="thumbnailPicture" />
+    <result column="master_map" jdbcType="CHAR" property="masterMap" />
+    <result column="classify_id" jdbcType="INTEGER" property="classifyId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="goodsName!= null">
+        AND goods_name = #{goodsName}
+      </if>
+      <if test="goodsNum!= null">
+        AND goods_num = #{goodsNum}
+      </if>
+      <if test="maxPrice!= null">
+        AND max_price = #{maxPrice}
+      </if>
+      <if test="minPrice!= null">
+        AND min_price = #{minPrice}
+      </if>
+      <if test="goodsCount!= null">
+        AND goods_count = #{goodsCount}
+      </if>
+      <if test="grounding!= null">
+        AND grounding = #{grounding}
+      </if>
+      <if test="freePostage!= null">
+        AND free_postage = #{freePostage}
+      </if>
+      <if test="postage!= null">
+        AND postage = #{postage}
+      </if>
+      <if test="supplierId!= null">
+        AND supplier_id = #{supplierId}
+      </if>
+      <if test="thumbnailPicture!= null">
+        AND thumbnail_picture = #{thumbnailPicture}
+      </if>
+      <if test="masterMap!= null">
+        AND master_map = #{masterMap}
+      </if>
+      <if test="classifyId!= null">
+        AND classify_id = #{classifyId}
+      </if>
+      <if test="updateTime!= null">
+        AND update_time = #{updateTime}
+      </if>
+      <if test="createTime!= null">
+        AND create_time = #{createTime}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>

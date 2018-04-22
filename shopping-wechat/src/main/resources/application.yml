@@ -1,0 +1,31 @@
+##########################################################
+###################  所有环境的配置文件  ###################
+##########################################################
+
+######################## spring 设置 ##########################
+spring:
+  profiles:
+    active: dev,dev-conf  ###启动环境 dev（本地） test（测试） prod（线上）
+  mvc:
+    favicon:
+      enabled: false
+  http:
+    converters:
+      preferred-json-mapper: fastjson
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+
+ ######################## 项目设置 ##########################
+server:
+  context-path: /wechat  ### 项目访问路径
+  port: 8077
+ ## ssl:
+   ## key-store: classpath:qs_ams_web.keystore
+   ## key-store-password: qs_ams_web
+   ## key-store-type: JKS
+   ## key-alias: tomcat

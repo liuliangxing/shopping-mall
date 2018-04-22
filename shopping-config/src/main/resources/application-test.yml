@@ -1,0 +1,73 @@
+##########################################################
+###################  测试环境的profile  ###################
+##########################################################
+
+###################  shopping-mall 数据源  ###################
+shooping-mall:
+  datasource:
+    ##驱动配置
+    ##type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/jbt_shopping_mall?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&useSSL=true
+    username: root
+    password: 1qaz2wsx
+    driverClassName: com.mysql.jdbc.Driver
+    ##连接池配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
+###################  mybatis-plus配置  ###################
+mybatis-plus-shopping-mall:
+  mapper-locations: classpath:com/jbt/shopping/persistent/entity/mall/mappers/*.xml
+  typeAliasesPackage: com.jbt.shopping.persistent.entity.mall
+  global-config:
+    id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
+    db-column-underline: true
+    refresh-mapper: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
+
+###################  jta配置  ###################
+jta-shopping-mall:
+  jta:
+    atomikos:
+      datasource:
+        max-pool-size: 10
+        min-pool-size: 10
+        borrow-connection-timeout: 60
+        xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
+        reap-timeout: 20
+        max-idle-time: 60
+        maintenance-interval: 60
+        login-timeout: 60
+        test-query: SELECT 1 FROM DUAL
+
+###################  redis 基本配置 ###################
+spring:
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-active: 8
+      max-wait: -1
+
+

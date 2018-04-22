@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.ActivityMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.Activity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_name" jdbcType="VARCHAR" property="activityName" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="activity_label" jdbcType="VARCHAR" property="activityLabel" />
+    <result column="activity_status" jdbcType="INTEGER" property="activityStatus" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="activityName!= null">
+        AND activity_name = #{activityName}
+      </if>
+      <if test="seq!= null">
+        AND seq = #{seq}
+      </if>
+      <if test="activityLabel!= null">
+        AND activity_label = #{activityLabel}
+      </if>
+      <if test="activityStatus!= null">
+        AND activity_status = #{activityStatus}
+      </if>
+      <if test="startTime!= null">
+        AND start_time = #{startTime}
+      </if>
+      <if test="endTime!= null">
+        AND end_time = #{endTime}
+      </if>
+      <if test="updateTime!= null">
+        AND update_time = #{updateTime}
+      </if>
+      <if test="createTime!= null">
+        AND create_time = #{createTime}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>

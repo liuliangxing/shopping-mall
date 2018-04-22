@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.SupplierMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.Supplier">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_contacts" jdbcType="VARCHAR" property="supplierContacts" />
+    <result column="supplier_spare" jdbcType="VARCHAR" property="supplierSpare" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="supplierName!= null">
+        AND supplier_name = #{supplierName}
+      </if>
+      <if test="supplierContacts!= null">
+        AND supplier_contacts = #{supplierContacts}
+      </if>
+      <if test="supplierSpare!= null">
+        AND supplier_spare = #{supplierSpare}
+      </if>
+      <if test="enabled!= null">
+        AND enabled = #{enabled}
+      </if>
+      <if test="createTime!= null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="updateTime!= null">
+        AND update_time = #{updateTime}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>

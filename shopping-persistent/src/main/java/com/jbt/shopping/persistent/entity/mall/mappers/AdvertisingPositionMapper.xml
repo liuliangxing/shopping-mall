@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jbt.shopping.persistent.mappers.mall.AdvertisingPositionMapper">
+  <cache type="com.destinyboy.jbt.utils.redis.RedisCache" />
+  <resultMap id="BaseResultMap" type="com.jbt.shopping.persistent.entity.mall.AdvertisingPosition">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="value" jdbcType="INTEGER" property="value" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="position" jdbcType="INTEGER" property="position" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="baseWhere">
+    <trim prefix="WHERE" prefixOverrides="AND">
+      <if test="id!= null">
+        AND id = #{id}
+      </if>
+      <if test="name!= null">
+        AND name = #{name}
+      </if>
+      <if test="type!= null">
+        AND type = #{type}
+      </if>
+      <if test="value!= null">
+        AND value = #{value}
+      </if>
+      <if test="sort!= null">
+        AND sort = #{sort}
+      </if>
+      <if test="img!= null">
+        AND img = #{img}
+      </if>
+      <if test="position!= null">
+        AND position = #{position}
+      </if>
+      <if test="enabled!= null">
+        AND enabled = #{enabled}
+      </if>
+      <if test="createTime!= null">
+        AND create_time = #{createTime}
+      </if>
+      <if test="updateTime!= null">
+        AND update_time = #{updateTime}
+      </if>
+    </trim>
+  </sql>
+  <!-- # [无辜的分割线] -> [新增SQL请写在我下面，后果自负。] # -->
+</mapper>
