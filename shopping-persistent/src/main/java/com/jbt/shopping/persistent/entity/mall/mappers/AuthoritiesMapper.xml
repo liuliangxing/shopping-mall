@@ -10,7 +10,7 @@
     <result column="menu_path" jdbcType="VARCHAR" property="menuPath" />
     <result column="menu_level" jdbcType="INTEGER" property="menuLevel" />
     <result column="menu_sort" jdbcType="INTEGER" property="menuSort" />
-    <result column="icon_name" jdbcType="INTEGER" property="iconName" />
+    <result column="icon_name" jdbcType="VARCHAR" property="iconName" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="enabled" jdbcType="INTEGER" property="enabled" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />

@@ -1,7 +1,5 @@
 package com.jbt.shopping.persistent.entity.mall;
 
-import com.baomidou.mybatisplus.annotations.TableLogic;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -44,17 +42,16 @@ public class Authorities implements Serializable {
     /**
      * 图片路径
      */
-    private Integer iconName;
+    private String iconName;
 
     /**
-     * 权限类型： 1:菜单权限 2:操作权限
+     * 权限类型： 1:菜单权限 2:页面权限 3: 操作权限
      */
     private Integer type;
 
     /**
      * 是否启用：1启用 2禁用
      */
-    @TableLogic
     private Integer enabled;
 
     /**
@@ -128,12 +125,12 @@ public class Authorities implements Serializable {
         this.menuSort = menuSort;
     }
 
-    public Integer getIconName() {
+    public String getIconName() {
         return iconName;
     }
 
-    public void setIconName(Integer iconName) {
-        this.iconName = iconName;
+    public void setIconName(String iconName) {
+        this.iconName = iconName == null ? null : iconName.trim();
     }
 
     public Integer getType() {
