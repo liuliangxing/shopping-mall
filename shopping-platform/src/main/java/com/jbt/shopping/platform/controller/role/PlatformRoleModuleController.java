@@ -1,5 +1,8 @@
 package com.jbt.shopping.platform.controller.role;
 
+import com.jbt.shopping.biz.groups.platform.role.EditUserRoleGroup; 
+import com.jbt.shopping.biz.groups.platform.role.GetAuthoritiesListGroup; 
+import com.jbt.shopping.biz.groups.platform.role.DisableRoleGroup; 
 import com.jbt.shopping.biz.domain.platform.role.query.PlatformRoleServiceQuery; 
 import com.jbt.shopping.biz.groups.platform.role.EditRoleGroup; 
 import com.jbt.shopping.biz.groups.platform.role.AddRoleGroup; 
@@ -71,5 +74,36 @@ public class PlatformRoleModuleController {
    @RequestMapping(value=("getRoleByUserId.do"), method = RequestMethod.POST) 
    public JsonResult<Map<String, Object>> getRoleByUserId(@Validated(value={GetRoleByUserIdGroup.class}) @RequestBody PlatformRoleServiceQuery query) throws Exception { 
        return ResultUtil.success(platformRoleService.getRoleByUserId(query)); 
+   }
+
+    /**
+     * 禁用、启用 角色
+     * @param query
+     */
+   @RequestMapping(value=("disableRole.do"), method = RequestMethod.POST) 
+   public JsonResult<Map<String, Object>> disableRole(@Validated(value={DisableRoleGroup.class}) @RequestBody PlatformRoleServiceQuery query) throws Exception { 
+       platformRoleService.disableRole(query); 
+       return ResultUtil.success(); 
+   }
+
+    /**
+     * 获取角色权限列表
+     * @param query
+     * @return
+     * @throws Exception
+     */
+   @RequestMapping(value=("getAuthoritiesList.do"), method = RequestMethod.POST) 
+   public JsonResult<Map<String, Object>> getAuthoritiesList(@Validated(value={GetAuthoritiesListGroup.class}) @RequestBody PlatformRoleServiceQuery query) throws Exception { 
+       return ResultUtil.success(platformRoleService.getAuthoritiesList(query)); 
+   }
+
+    /**
+     * 更新用户角色
+     * @param query
+     */
+   @RequestMapping(value=("editUserRole.do"), method = RequestMethod.POST) 
+   public JsonResult<Map<String, Object>> editUserRole(@Validated(value={EditUserRoleGroup.class}) @RequestBody PlatformRoleServiceQuery query) throws Exception { 
+       platformRoleService.editUserRole(query); 
+       return ResultUtil.success(); 
    }
 }

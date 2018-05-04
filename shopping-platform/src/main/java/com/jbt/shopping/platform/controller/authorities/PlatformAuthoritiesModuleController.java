@@ -1,5 +1,6 @@
 package com.jbt.shopping.platform.controller.authorities;
 
+import com.jbt.shopping.biz.groups.platform.authorities.GetAuthoritiesAllByRoleIdGroup; 
 import com.jbt.shopping.biz.groups.platform.authorities.GetAuthoritiesAllByRoleGroup; 
 import com.jbt.shopping.biz.groups.platform.authorities.GrantAuthoritiesByUserIdGroup; 
 import com.jbt.shopping.biz.groups.platform.authorities.GetAuthoritiesListByUserIdGroup; 
@@ -137,5 +138,16 @@ public class PlatformAuthoritiesModuleController {
    @RequestMapping(value=("getAuthoritiesAllByRole.do"), method = RequestMethod.POST) 
    public JsonResult<Map<String, Object>> getAuthoritiesAllByRole(@Validated(value={GetAuthoritiesAllByRoleGroup.class}) @RequestBody PlatformAuthoritiesServiceQuery query) throws Exception { 
        return ResultUtil.success(platformAuthoritiesService.getAuthoritiesAllByRole(query)); 
+   }
+
+    /**
+     * 根据RoleId 获取选中的权限列表
+     * @param query
+     * @return
+     * @throws Exception
+     */
+   @RequestMapping(value=("getAuthoritiesAllByRoleId.do"), method = RequestMethod.POST) 
+   public JsonResult<Map<String, Object>> getAuthoritiesAllByRoleId(@Validated(value={GetAuthoritiesAllByRoleIdGroup.class}) @RequestBody PlatformAuthoritiesServiceQuery query) throws Exception { 
+       return ResultUtil.success(platformAuthoritiesService.getAuthoritiesAllByRoleId(query)); 
    }
 }
