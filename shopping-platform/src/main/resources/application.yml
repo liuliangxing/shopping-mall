@@ -6,7 +6,7 @@
 ###启动环境 dev（本地） test（测试） prod（线上）
 spring:
   profiles:
-    active: dev,dev-conf
+    active: prod,dev-conf
   mvc:
     favicon:
       enabled: false
