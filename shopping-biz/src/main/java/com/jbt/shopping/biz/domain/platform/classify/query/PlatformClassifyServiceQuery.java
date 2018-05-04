@@ -2,7 +2,7 @@ package com.jbt.shopping.biz.domain.platform.classify.query;
 
 import com.jbt.shopping.biz.groups.platform.classify.*;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
