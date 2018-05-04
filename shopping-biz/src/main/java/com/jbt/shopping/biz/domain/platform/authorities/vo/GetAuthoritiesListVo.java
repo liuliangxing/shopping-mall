@@ -52,7 +52,7 @@ public class GetAuthoritiesListVo implements Serializable{
     /**
      * 图片路径
      */
-    private Integer iconName;
+    private String iconName;
 
     /**
      * 权限类型： 1:菜单权限 2:操作权限

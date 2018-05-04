@@ -53,7 +53,7 @@ public class PlatformAuthoritiesServiceQuery implements Serializable {
     /**
      * 图片路径
      */
-    private Integer iconName;
+    private String iconName;
 
     /**
      * 是否启用：1启用 2禁用
@@ -93,4 +93,9 @@ public class PlatformAuthoritiesServiceQuery implements Serializable {
      */
     @NotEmpty(groups = {GrantAuthoritiesByUserIdGroup.class})
     private List<UserAuthorities> authoritiesList = new ArrayList<>();
+
+    /**
+     * 角色Id
+     */
+    private Integer roleId;
 }

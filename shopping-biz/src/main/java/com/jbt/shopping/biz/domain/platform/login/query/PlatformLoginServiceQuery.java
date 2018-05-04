@@ -3,7 +3,7 @@ package com.jbt.shopping.biz.domain.platform.login.query;
 import com.destinyboy.jbt.utils.page.PageQuery;
 import com.jbt.shopping.biz.groups.platform.login.*;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
