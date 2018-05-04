@@ -12,6 +12,7 @@ import com.jbt.shopping.common.exceptions.BusinessException;
 import com.jbt.shopping.persistent.entity.mall.*;
 import com.xiaoleilu.hutool.util.BeanUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,6 +34,8 @@ public class PlatformAuthoritiesServiceImpl extends FacadeService implements Pla
 
     private final static String USER_ID = "user_id";
     private final static String ROLE_ID = "role_id";
+    private final static Integer TYPE = 3;
+
 
 
     /**
@@ -53,7 +56,7 @@ public class PlatformAuthoritiesServiceImpl extends FacadeService implements Pla
                 .map(roleIds -> {
                     // 获取用户角色下的权限 Id 集合
                     return CodeUtil.handlerDBCodeOptional(!roleIds.isEmpty(), this.getRoleAuthoritiesService()::selectList,//
-                            new EntityWrapper<RoleAuthorities>().in(ROLE_ID, roleIds).eq("enabled", Constants.GLOBAL_ENABLE_NORMAL))//
+                            new EntityWrapper<RoleAuthorities>().in(ROLE_ID, roleIds))//
                             .map(roleAuthorities -> roleAuthorities.stream().map(RoleAuthorities::getAuthoritiesId).collect(Collectors.toList()))//
                             .orElse(Collections.emptyList());
                 }).get();
@@ -71,11 +74,22 @@ public class PlatformAuthoritiesServiceImpl extends FacadeService implements Pla
 
         // 查询指定集合 权限
         List<Authorities> authorities = CodeUtil.handlerDBCodeOptional(!authorititesIds.isEmpty(),this.getAuthoritiesService()::selectBatchIds, authorititesIds).orElse(Collections.emptyList());;
+        // 查询所有操作权限
+        List<String> authoritiesNameList = new ArrayList<>();
+        for (Authorities temp :
+                authorities) {
+            if (temp.getType() == TYPE) {
+                authoritiesNameList.add(temp.getAuthoritiesName());
+            }
+        }
+
         List<GetAuthoritiesListVo> getAuthoritiesList = new ArrayList<>();
         recursionAuthorities(authorities, getAuthoritiesList, -1, null);
 
+
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("authoritiesList", getAuthoritiesList);
+        resultMap.put("operationPermissions", authoritiesNameList);
         resultMap.put("id", platformUser.getId());
         resultMap.put("username", platformUser.getUsername());
         resultMap.put("nickname",platformUser.getNickname());
@@ -101,7 +115,7 @@ public class PlatformAuthoritiesServiceImpl extends FacadeService implements Pla
                 .map(roleIds -> {
                     // 获取用户角色下的权限 Id 集合
                     return CodeUtil.handlerDBCodeOptional(!roleIds.isEmpty(), this.getRoleAuthoritiesService()::selectList,//
-                            new EntityWrapper<RoleAuthorities>().in(ROLE_ID, roleIds).eq("enabled", Constants.GLOBAL_ENABLE_NORMAL))//
+                            new EntityWrapper<RoleAuthorities>().in(ROLE_ID, roleIds))//
                             .map(roleAuthorities -> roleAuthorities.stream().map(RoleAuthorities::getAuthoritiesId).collect(Collectors.toList()))//
                             .orElse(Collections.emptyList());
                 }).get();
@@ -112,21 +126,19 @@ public class PlatformAuthoritiesServiceImpl extends FacadeService implements Pla
         return authorititesIds;
     }
 
-    public void getAuthoritiesListByRoleId() {
-
-    }
 
     /**
      * 根据用户ID 授权
      * @param query
      */
+    @Transactional
     public void grantAuthoritiesByUserId(PlatformAuthoritiesServiceQuery query) throws Exception{
         // 删除当前
         CodeUtil.handlerDBCodeOptional(this.getUserAuthoritiesService():: delete,
                 new EntityWrapper<UserAuthorities>().eq(USER_ID, query.getUserId()));
 
         // 插入新的权限
-        CodeUtil.handlerDBCodeOptional(this.getUserAuthoritiesService():: insertBatch, query.getAuthoritiesList());
+        CodeUtil.handlerDBCodeOptional(!query.getAuthoritiesList().isEmpty(),this.getUserAuthoritiesService():: insertBatch, query.getAuthoritiesList());
     }
 
     /**
@@ -173,11 +185,33 @@ public class PlatformAuthoritiesServiceImpl extends FacadeService implements Pla
                 .map(roleIds -> {
                     // 获取用户角色下的权限 Id 集合
                     return CodeUtil.handlerDBCodeOptional(!roleIds.isEmpty(), this.getRoleAuthoritiesService()::selectList,//
-                            new EntityWrapper<RoleAuthorities>().in(ROLE_ID, roleIds).eq("enabled", Constants.GLOBAL_ENABLE_NORMAL))//
+                            new EntityWrapper<RoleAuthorities>().in(ROLE_ID, roleIds))//
                             .map(roleAuthorities -> roleAuthorities.stream().map(RoleAuthorities::getAuthoritiesId).collect(Collectors.toList()))//
                             .orElse(Collections.emptyList());
                 }).get();
         recursionAuthorities(authorities, getAuthoritiesList, -1, authorititesIds1);
+        return getAuthoritiesList;
+    }
+
+    /**
+     * 根据RoleId 获取选中的权限列表
+     * @param query
+     * @return
+     * @throws Exception
+     */
+    public List<GetAuthoritiesListVo> getAuthoritiesAllByRoleId (PlatformAuthoritiesServiceQuery query) throws Exception{
+        List<Authorities> authorities = CodeUtil.handlerDBCodeOptional(this.getAuthoritiesService()::selectList, new EntityWrapper<>()).get();
+        List<GetAuthoritiesListVo> getAuthoritiesList = new ArrayList<>();
+        List<Integer> authoritiesList = CodeUtil.handlerDBCodeOptional(query.getRoleId() != null,this.getRoleAuthoritiesService()::selectList,
+                new EntityWrapper<RoleAuthorities>().eq(ROLE_ID, query.getRoleId()))
+                .map(roleAuthorities -> {
+                    return roleAuthorities.stream()
+                            .map(RoleAuthorities::getAuthoritiesId)
+                            .collect(Collectors.toList());
+                })
+                .orElse(Collections.emptyList());
+
+        recursionAuthorities(authorities, getAuthoritiesList, -1, authoritiesList);
         return getAuthoritiesList;
     }
 

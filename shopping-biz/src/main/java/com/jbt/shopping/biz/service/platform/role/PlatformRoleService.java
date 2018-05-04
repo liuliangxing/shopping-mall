@@ -2,6 +2,7 @@ package com.jbt.shopping.biz.service.platform.role;
 
 import com.jbt.shopping.biz.domain.platform.role.query.PlatformRoleServiceQuery;
 import com.jbt.shopping.persistent.entity.mall.Role;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,4 +44,25 @@ public interface PlatformRoleService{
      * @return
      */
     public List<Integer> getRoleByUserId(PlatformRoleServiceQuery query)throws Exception;
+
+    /**
+     * 禁用、启用 角色
+     * @param query
+     */
+    public void disableRole (PlatformRoleServiceQuery query)throws Exception;
+
+    /**
+     * 获取角色权限列表
+     * @param query
+     * @return
+     * @throws Exception
+     */
+    public List<Integer> getAuthoritiesList(PlatformRoleServiceQuery query) throws  Exception;
+
+    /**
+     * 更新用户角色
+     * @param query
+     */
+    @Transactional
+    public void editUserRole(PlatformRoleServiceQuery query) throws Exception;
 }

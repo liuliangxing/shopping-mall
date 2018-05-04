@@ -79,4 +79,12 @@ public interface PlatformAuthoritiesService{
      * @return
      */
     public List<GetAuthoritiesListVo> getAuthoritiesAllByRole (PlatformAuthoritiesServiceQuery query) throws Exception;
+
+    /**
+     * 根据RoleId 获取选中的权限列表
+     * @param query
+     * @return
+     * @throws Exception
+     */
+    public List<GetAuthoritiesListVo> getAuthoritiesAllByRoleId (PlatformAuthoritiesServiceQuery query) throws Exception;
 }

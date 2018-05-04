@@ -3,13 +3,15 @@ package com.jbt.shopping.biz.service.platform.role.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.destinyboy.jbt.utils.code.CodeUtil;
+import com.jbt.shopping.base.service.FacadeService;
 import com.jbt.shopping.biz.domain.platform.role.query.PlatformRoleServiceQuery;
 import com.jbt.shopping.biz.service.platform.role.PlatformRoleService;
-import com.jbt.shopping.base.service.FacadeService;
 import com.jbt.shopping.persistent.entity.mall.Role;
 import com.jbt.shopping.persistent.entity.mall.RoleAuthorities;
 import com.jbt.shopping.persistent.entity.mall.UserRole;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class PlatformRoleServiceImpl extends FacadeService implements PlatformRo
 
     private final static String USER_ID = "user_id";
     private final static String ROLE_NAME = "role_name";
+    private final static String ROLE_ID = "role_id";
     private final static String ENABLED = "enabled";
 
     /**
@@ -50,9 +53,11 @@ public class PlatformRoleServiceImpl extends FacadeService implements PlatformRo
      * 插入角色
      * @param query
      */
+    @Transactional
     public void addRole(PlatformRoleServiceQuery query) throws Exception{
         Role role = new Role();
         role.setRoleName(query.getRoleName());
+        role.setRoleDesc(query.getRoleDesc());
         CodeUtil.handlerDBCodeOptional(this.getRoleService()::insert, role);
 
         List<Integer> authoritiesIds = query.getAuthoritiesIds();
@@ -63,19 +68,38 @@ public class PlatformRoleServiceImpl extends FacadeService implements PlatformRo
             roleAuthorities.setAuthoritiesId(id);
             roleAuthoritiesList.add(roleAuthorities);
         }
-//        CodeUt
+        // 插入角色权限
+        CodeUtil.handlerDBCodeBasic(!roleAuthoritiesList.isEmpty(),this.getRoleAuthoritiesService():: insertBatch, roleAuthoritiesList);
     }
 
     /**
      * 编辑角色
      * @param query
      */
+    @Transactional
     public void editRole(PlatformRoleServiceQuery query) throws Exception{
+        // 更新Role 信息
         Role role = new Role();
         role.setId(query.getId());
         role.setRoleName(query.getRoleName());
         role.setEnabled(query.getEnabled());
+        role.setRoleDesc(query.getRoleDesc());
         CodeUtil.handlerDBCodeOptional(this.getRoleService()::updateById, role);
+
+        // 删除Role 权限列表
+        CodeUtil.handlerDBCodeBasic(this.getRoleAuthoritiesService():: delete,
+                new EntityWrapper<RoleAuthorities>().eq(ROLE_ID, query.getId()));
+
+        List<Integer> authoritiesIds = query.getAuthoritiesIds();
+        List<RoleAuthorities> roleAuthoritiesList = new ArrayList<>();
+        for (Integer id: authoritiesIds) {
+            RoleAuthorities roleAuthorities = new RoleAuthorities();
+            roleAuthorities.setRoleId(role.getId());
+            roleAuthorities.setAuthoritiesId(id);
+            roleAuthoritiesList.add(roleAuthorities);
+        }
+        // 插入角色权限
+        CodeUtil.handlerDBCodeBasic(!roleAuthoritiesList.isEmpty(), this.getRoleAuthoritiesService():: insertBatch, roleAuthoritiesList);
     }
 
 
@@ -93,4 +117,53 @@ public class PlatformRoleServiceImpl extends FacadeService implements PlatformRo
         return roleIds;
     }
 
+    /**
+     * 获取角色权限列表
+     * @param query
+     * @return
+     * @throws Exception
+     */
+    public List<Integer> getAuthoritiesList(PlatformRoleServiceQuery query) throws  Exception{
+        List<Integer> authoritiesList = CodeUtil.handlerDBCodeOptional(this.getRoleAuthoritiesService()::selectList,
+                new EntityWrapper<RoleAuthorities>().eq(ROLE_ID, query.getId()))
+                .get()
+                .stream()
+                .map(RoleAuthorities::getAuthoritiesId)
+                .collect(Collectors.toList());
+        return authoritiesList;
+    }
+
+    /**
+     * 禁用、启用 角色
+     * @param query
+     */
+    public void disableRole (PlatformRoleServiceQuery query)throws Exception {
+        Role role = new Role();
+        role.setId(query.getId());
+        role.setEnabled(query.getEnabled());
+        CodeUtil.handlerDBCodeBasic(this.getRoleService():: updateById, role);
+    }
+
+    /**
+     * 更新用户角色
+     * @param query
+     */
+    @Transactional
+    public void editUserRole(PlatformRoleServiceQuery query) throws Exception{
+        // 删除
+        CodeUtil.handlerDBCodeBasic(this.getUserRoleService()::delete,
+                new EntityWrapper<UserRole>().eq(USER_ID, query.getUserId()));
+
+        List<UserRole> userRoles = new ArrayList<>();
+        List<Integer> roleIds = query.getRoleIds();
+        for (Integer roleId :
+                roleIds) {
+            UserRole userRole = new UserRole();
+            userRole.setRoleId(roleId);
+            userRole.setUserId(query.getUserId());
+            userRoles.add(userRole);
+        }
+        // 保存
+        CodeUtil.handlerDBCodeOptional(!userRoles.isEmpty(),this.getUserRoleService()::insertBatch, userRoles);
+    }
 }
