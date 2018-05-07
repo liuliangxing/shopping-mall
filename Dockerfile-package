@@ -1,0 +1,12 @@
+FROM registry.cn-hangzhou.aliyuncs.com/teng_ubuntu/ubuntu-base:stable
+MAINTAINER Teng "destinyboy"
+ENV JAVA_HOME=/usr/jdk-9.0.4
+ENV M2_HOME=/usr/apache-maven-3.5.3
+ENV CLASSPATH=$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$M2_HOME/lib
+ENV JRE_HOME=$JAVA_HOME/jre
+ENV PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin:$M2_HOME/bin
+WORKDIR /project
+ADD . /project
+RUN mvn package -Dmaven.test.skip=true
+ENTRYPOINT ["source /etc/profile"]
+CMD ["mvn"]

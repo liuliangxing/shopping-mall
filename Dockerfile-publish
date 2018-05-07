@@ -1,0 +1,9 @@
+FROM java
+
+MAINTAINER Teng "destinyboy"
+
+COPY /project/shopping-platform/target/shopping-platform.jar /usr/src/myapp/shopping-platform.jar
+
+WORKDIR /usr/src/myapp/
+
+ENTRYPOINT java -jar shopping-platform.jar
