@@ -7,7 +7,7 @@ shopping-mall:
   datasource:
     ##驱动配置
     ##type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://mysql:3306/jbt_shopping_mall?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&useSSL=true
+    url: jdbc:mysql://MySQL:3306/jbt_shopping_mall?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&useSSL=true
     username: root
     password: VShl9tr5
     driverClassName: com.mysql.jdbc.Driver
@@ -62,7 +62,7 @@ jta-shopping-mall:
 spring:
   redis:
     database: 0
-    host: redis
+    host: Redis
     port: 6379
     jedis:
       pool:
